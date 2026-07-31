@@ -90,7 +90,7 @@
         .gallery-container {
             position: relative;
             width: 100%;
-            max-height: 220px;
+            max-height: 250px;
             margin-bottom: 20px;
             border-radius: 12px;
             overflow: hidden;
@@ -98,7 +98,7 @@
 
         .gallery-img {
             width: 100%;
-            height: 220px;
+            height: 250px;
             object-fit: cover;
             border-radius: 12px;
             display: none;
@@ -115,14 +115,37 @@
             background: rgba(0,0,0,0.4);
             color: white;
             border: none;
-            padding: 5px 12px;
+            padding: 8px 14px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
+            transition: background 0.3s ease;
+        }
+
+        .gallery-btn:hover {
+            background: rgba(0,0,0,0.7);
         }
 
         .prev-btn { left: 10px; }
         .next-btn { right: 10px; }
+
+        /* Video Styling */
+        .video-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            max-height: 280px;
+            display: block;
+            border-radius: 12px;
+            object-fit: cover;
+        }
 
         h2 {
             color: #4a4a4a;
@@ -177,42 +200,65 @@
 </head>
 <body>
 
+    <!-- Audio Player -->
     <div class="audio-container">
         <button id="musicToggle" onclick="toggleMusic()">🎵 Play Music</button>
         <audio id="bgMusic" src="lagu.mp3" loop></audio>
     </div>
 
     <div class="container">
+        <!-- Section 1: Intro + Typewriter Effect -->
         <div class="card active" id="step1">
             <h2 id="typewriterText"></h2>
             <p>Ada beberapa hal yang selama ini cuma tersimpan rapi, dan rasanya hari ini aku harus jujur.</p>
             <button onclick="nextStep(2)">Lanjut baca</button>
         </div>
 
+        <!-- Section 2: Maaf & Kejujuran -->
         <div class="card" id="step2">
             <h2>Maaf ya...</h2>
             <p>Maaf kalau ternyata selama ini aku masih nyimpan rasa yang sama. Aku sadar kita sempat renggang dan ada jarak, tapi jujur, rasa itu enggak pernah benar-benar berkurang.</p>
             <button onclick="nextStep(3)">Lanjut</button>
         </div>
 
+        <!-- Section 3: Masih Nunggu + Galeri Foto -->
         <div class="card" id="step3">
             <h2>Tentang Waktu</h2>
             
             <div class="gallery-container">
                 <img src="kenangan.jpg" class="gallery-img active" alt="Memori 1">
-                <img src="kenangan.jpg" class="gallery-img" alt="Memori 2">
+                <img src="kenangan2.jpg" class="gallery-img" alt="Memori 2">
+                <img src="kenangan3.jpg" class="gallery-img" alt="Memori 3">
+                <img src="kenangan4.jpg" class="gallery-img" alt="Memori 4">
+                
                 <button class="gallery-btn prev-btn" onclick="changeSlide(-1)">❮</button>
                 <button class="gallery-btn next-btn" onclick="changeSlide(1)">❯</button>
             </div>
 
             <p>Selama waktu berjalan dan kita masing-masing, aku sadar satu hal: aku masih nunggu. Aku masih selalu berharap kalau orangnya emang kamu.</p>
-            <button onclick="nextStep(4)">Lanjut</button>
+            <button onclick="nextStep(4)">Lihat Video</button>
         </div>
 
+        <!-- Section 4: Momen Video MP4 -->
         <div class="card" id="step4">
+            <h2>Momen Spesial</h2>
+            
+            <div class="video-container">
+                <video id="myVideo" controls autoplay loop muted playsinline>
+                    <source src="kenangan.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            <p>Setiap momen kecil rasanya selalu bernilai buat aku...</p>
+            <button onclick="nextStep(5)">Lanjut</button>
+        </div>
+
+        <!-- Section 5: Tombol Interaktif (Kabur) + WA -->
+        <div class="card" id="step5">
             <h2>Perasaanku Saat Ini</h2>
             <p>Rasa ini masih sama tulusnya, atau bahkan mungkin lebih dewasa. Mau ngobrol lagi kayak dulu?</p>
             <div class="btn-group">
+                <!-- Ganti nomor WhatsApp kamu di bawah ini -->
                 <a href="https://wa.me/6289606765635?text=Aku%20udah%20baca%20semuanya..." class="wa-btn" target="_blank">Mau Banget!</a>
                 <button class="run-btn" id="runBtn" onmouseover="runAway()" onclick="runAway()">Enggak Dulu</button>
             </div>
@@ -245,6 +291,12 @@
             var targetCard = document.getElementById('step' + stepNumber);
             if (targetCard) {
                 targetCard.classList.add('active');
+            }
+
+            // Jika masuk ke step video, putar videonya
+            var vid = document.getElementById('myVideo');
+            if (stepNumber === 4 && vid) {
+                vid.play();
             }
         }
 
